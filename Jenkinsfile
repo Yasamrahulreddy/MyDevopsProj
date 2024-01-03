@@ -8,54 +8,31 @@ pipeline {
   }
 
   stages{
-    stage("Cleanup Workspace"){
+        stage("Cleanup Workspace"){
+                steps {
+                cleanWs()
+                }
+        }
 
-      steps{
-        cleanWs()
+        stage("Checkout from SCM"){
+                steps {
+                    git branch: 'main',credentialsId:'github',url:'https://github.com/Yasamrahulreddy/Devops-Main-App'
+                }
+        }
 
-      }
+        stage("Build Application"){
+            steps {
+                sh "mvn clean package"
+            }
+
+       }
+
+       stage("Test Application"){
+           steps {
+                 sh "mvn test"
+           }
+       }
     
-      
-
-    }
-
-    stage("Checkout from SCM "){
-
-      steps{
-        git branch: 'main',credentialsId:'github',url:'https://github.com/Yasamrahulreddy/Devops-Main-App'
-        
-
-      }
-    
-      
-
-    }
-    stage("Build Application "){
-
-      steps{
-        sh "mvn clean package"
-        
-
-      }
-    
-      
-
-    }
-     stage("Test Application "){
-
-      steps{
-        sh "mvn test"
-        
-
-      }
-    
-      
-
-    }
-
-    
-
-
   }
     
   
